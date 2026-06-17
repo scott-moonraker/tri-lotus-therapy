@@ -1,0 +1,227 @@
+---
+import Icon from "./Icon.astro";
+import { asset } from "../lib/asset.js";
+import { nav, clinic, announcement } from "../data/site.js";
+---
+<!-- Top announcement banner -->
+<div class="announce">
+  <div class="shell announce-inner">
+    <p class="announce-text">
+      <span class="announce-dot" aria-hidden="true"></span>
+      {announcement.text}
+      <a class="announce-cta" href={clinic.booking.url} target="_blank" rel="noopener">{announcement.ctaLabel}</a>
+    </p>
+    <a class="announce-login" href={clinic.clientLogin} target="_blank" rel="noopener">Client Login</a>
+  </div>
+</div>
+
+<header class="site-header" data-header>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell header-inner">
+    <a href="#top" class="brand" aria-label={`${clinic.name} — home`}>
+      <img src={asset("/images/logo-wordmark.png")} alt={clinic.name} class="brand-logo" width="200" height="200" />
+    </a>
+
+    <nav class="nav-desktop" aria-label="Primary">
+      <ul class="nav-list">
+        {nav.map((item) =>
+          item.children ? (
+            <li class={`nav-item has-dropdown${item.children.length > 8 ? " is-wide" : ""}`} data-dropdown>
+              <button type="button" class="nav-link nav-trigger" aria-expanded="false" aria-haspopup="true">
+                {item.label}
+                <span class="nav-chevron"><Icon name="chevron" size={15} /></span>
+              </button>
+              <div class="dropdown" role="menu">
+                <a href={item.href} class="dropdown-head" role="menuitem">
+                  All {item.label}
+                  <Icon name="arrow" size={15} />
+                </a>
+                <ul class="dropdown-list">
+                  {item.children.map((c) => (
+                    <li role="none"><a href={c.href} class="dropdown-link" role="menuitem">{c.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ) : (
+            <li class="nav-item"><a href={item.href} class="nav-link">{item.label}</a></li>
+          )
+        )}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a href={clinic.booking.url} class="btn btn-primary header-cta" target="_blank" rel="noopener">Book Now</a>
+      <button type="button" class="menu-toggle" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <Icon name="menu" size={26} />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div class="drawer" id="mobile-drawer" data-drawer hidden>
+    <div class="drawer-top shell">
+      <span class="drawer-title">Menu</span>
+      <button type="button" class="menu-toggle" data-menu-close aria-label="Close menu"><Icon name="close" size={26} /></button>
+    </div>
+    <nav class="drawer-nav shell" aria-label="Mobile">
+      <ul>
+        {nav.map((item) =>
+          item.children ? (
+            <li>
+              <details class="drawer-group">
+                <summary>{item.label}<span class="drawer-chevron"><Icon name="chevron" size={18} /></span></summary>
+                <ul class="drawer-sub">
+                  <li><a href={item.href}>All {item.label}</a></li>
+                  {item.children.map((c) => (<li><a href={c.href}>{c.label}</a></li>))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li><a href={item.href} class="drawer-link">{item.label}</a></li>
+          )
+        )}
+      </ul>
+    </nav>
+    <div class="drawer-footer shell">
+      <a href={clinic.booking.url} class="btn btn-primary" target="_blank" rel="noopener" style="width:100%">Book Now</a>
+      <a href={clinic.clientLogin} class="drawer-login" target="_blank" rel="noopener">Client Login</a>
+      <a href={clinic.phoneHref} class="drawer-contact"><Icon name="phone" size={17} color="var(--color-teal)" /> {clinic.phone}</a>
+      <a href={clinic.emailHref} class="drawer-contact"><Icon name="mail" size={17} color="var(--color-teal)" /> {clinic.email}</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Announcement bar ---------------------------------------------------- */
+  .announce { background: var(--color-teal); color: #f3efe6; font-size: 0.85rem; }
+  .announce-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.6rem; padding-block: 0.4rem; }
+  .announce-text { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; line-height: 1.4; }
+  .announce-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-sand); flex: none; }
+  .announce-cta { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--color-sand); }
+  .announce-cta:hover { text-decoration-color: #fff; }
+  .announce-login { color: #e7e0d3; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.74rem; white-space: nowrap; flex: none; }
+  .announce-login:hover { color: #fff; }
+
+  /* Header --------------------------------------------------------------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--color-paper) 90%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  .site-header[data-scrolled] { border-bottom-color: var(--color-line); box-shadow: 0 6px 24px -20px rgba(26,26,26,0.5); background: color-mix(in srgb, var(--color-paper) 96%, transparent); }
+
+  .skip-link { position: absolute; left: 1rem; top: 0.5rem; transform: translateY(-200%); background: var(--color-ink); color: #fff; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.9rem; z-index: 60; transition: transform 0.2s ease; }
+  .skip-link:focus { transform: translateY(0); }
+
+  .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; height: 6.75rem; }
+  .brand { display: inline-flex; align-items: center; flex: none; }
+  .brand-logo { height: 6.5rem; width: auto; display: block; transition: height 0.3s ease; }
+  .site-header[data-scrolled] .brand-logo { height: 5.2rem; }
+
+  /* Desktop nav */
+  .nav-desktop { display: none; }
+  .nav-list { display: flex; align-items: center; gap: 0.1rem; }
+  .nav-item { position: relative; }
+  .nav-link {
+    display: inline-flex; align-items: center; gap: 0.22rem;
+    font-size: 0.93rem; font-weight: 500; color: var(--color-ink);
+    padding: 0.5rem 0.6rem; border-radius: 8px;
+    background: none; border: none; cursor: pointer; font-family: inherit; white-space: nowrap;
+    transition: color 0.16s ease, background-color 0.16s ease;
+  }
+  .nav-link:hover { color: var(--color-teal); background: var(--color-sage-tint); }
+  .nav-chevron { display: inline-flex; transition: transform 0.22s var(--ease-out-quint); opacity: 0.65; }
+
+  .dropdown {
+    position: absolute; top: calc(100% + 0.35rem); left: 0; min-width: 15rem;
+    background: var(--color-surface); border: 1px solid var(--color-line);
+    border-radius: 14px; box-shadow: var(--shadow-lift); padding: 0.5rem;
+    opacity: 0; visibility: hidden; transform: translateY(6px);
+    transition: opacity 0.18s var(--ease-out-quint), transform 0.18s var(--ease-out-quint), visibility 0.18s;
+  }
+  .is-wide .dropdown { min-width: 33rem; }
+  .is-wide .dropdown-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1rem 0.5rem; }
+  .nav-item:last-child .dropdown, .nav-item:nth-last-child(2) .dropdown { left: auto; right: 0; }
+  .has-dropdown:hover .dropdown, .has-dropdown:focus-within .dropdown, .has-dropdown[data-open] .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .has-dropdown:hover .nav-chevron, .has-dropdown[data-open] .nav-chevron { transform: rotate(180deg); }
+
+  .dropdown-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.55rem 0.7rem; border-radius: 9px; font-size: 0.88rem; font-weight: 600; color: var(--color-teal); margin-bottom: 0.2rem; }
+  .dropdown-head:hover { background: var(--color-sage-tint); }
+  .is-wide .dropdown-head { grid-column: 1 / -1; }
+  .dropdown-link { display: block; padding: 0.5rem 0.7rem; border-radius: 9px; font-size: 0.9rem; color: var(--color-ink-soft); transition: background-color 0.14s ease, color 0.14s ease; }
+  .dropdown-link:hover { background: var(--color-sunk); color: var(--color-teal); }
+
+  /* Actions */
+  .header-actions { display: flex; align-items: center; gap: 0.6rem; }
+  .header-actions .header-cta { display: none; padding: 0.7rem 1.4rem; min-height: 2.75rem; }
+  .menu-toggle { display: inline-flex; align-items: center; justify-content: center; width: 2.9rem; height: 2.9rem; border-radius: 12px; border: 1px solid var(--color-line); background: var(--color-surface); color: var(--color-ink); cursor: pointer; }
+  .menu-toggle:hover { background: var(--color-sunk); }
+
+  /* Drawer */
+  .drawer { position: fixed; inset: 0; z-index: 70; background: var(--color-paper); display: flex; flex-direction: column; overflow-y: auto; animation: drawer-in 0.32s var(--ease-out-quint); }
+  @keyframes drawer-in { from { opacity: 0; transform: translateY(-1rem); } to { opacity: 1; transform: none; } }
+  .drawer-top { display: flex; align-items: center; justify-content: space-between; height: 4.75rem; border-bottom: 1px solid var(--color-line); }
+  .drawer-title { font-family: var(--font-serif); font-size: 1.3rem; color: var(--color-teal); }
+  .drawer-nav { padding-block: 1.25rem 1rem; flex: 1; }
+  .drawer-nav > ul { display: flex; flex-direction: column; }
+  .drawer-nav > ul > li { border-bottom: 1px solid var(--color-line-soft); }
+  .drawer-link, .drawer-group > summary { display: flex; align-items: center; justify-content: space-between; padding: 0.95rem 0.25rem; font-family: var(--font-serif); font-size: 1.25rem; color: var(--color-ink); cursor: pointer; list-style: none; }
+  .drawer-group > summary::-webkit-details-marker { display: none; }
+  .drawer-chevron { display: inline-flex; transition: transform 0.22s var(--ease-out-quint); color: var(--color-teal); }
+  .drawer-group[open] .drawer-chevron { transform: rotate(180deg); }
+  .drawer-sub { padding: 0 0 0.8rem 0.25rem; display: flex; flex-direction: column; gap: 0.05rem; }
+  .drawer-sub a { display: block; padding: 0.5rem 0; font-size: 1rem; color: var(--color-ink-soft); }
+  .drawer-sub a:hover { color: var(--color-clay-deep); }
+  .drawer-footer { padding-block: 1.5rem 2.5rem; border-top: 1px solid var(--color-line); display: flex; flex-direction: column; gap: 0.9rem; }
+  .drawer-login { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-teal); }
+  .drawer-contact { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--color-ink-soft); font-size: 1rem; }
+  .drawer-contact:hover { color: var(--color-clay-deep); }
+
+  @media (min-width: 480px) { .header-actions .header-cta { display: inline-flex; } }
+  @media (max-width: 600px) { .announce-text { font-size: 0.78rem; } .announce-login { display: none; } .brand-logo { height: 4.75rem; } .header-inner { height: 5.5rem; } }
+  @media (min-width: 1100px) { .nav-desktop { display: block; } .menu-toggle { display: none; } }
+</style>
+
+<script>
+  const header = document.querySelector("[data-header]");
+  const onScroll = () => { if (!header) return; if (window.scrollY > 8) header.setAttribute("data-scrolled", ""); else header.removeAttribute("data-scrolled"); };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  const dropdowns = document.querySelectorAll("[data-dropdown]");
+  dropdowns.forEach((dd) => {
+    const trigger = dd.querySelector(".nav-trigger");
+    if (!trigger) return;
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      const isOpen = dd.hasAttribute("data-open");
+      dropdowns.forEach((o) => { o.removeAttribute("data-open"); o.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false"); });
+      if (!isOpen) { dd.setAttribute("data-open", ""); trigger.setAttribute("aria-expanded", "true"); }
+    });
+  });
+  document.addEventListener("click", (e) => {
+    dropdowns.forEach((dd) => { if (!dd.contains(e.target as Node)) { dd.removeAttribute("data-open"); dd.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false"); } });
+  });
+
+  const drawer = document.querySelector("[data-drawer]") as HTMLElement | null;
+  const openBtn = document.querySelector("[data-menu-open]");
+  const closeBtn = document.querySelector("[data-menu-close]");
+  const setDrawer = (open: boolean) => {
+    if (!drawer) return;
+    drawer.hidden = !open;
+    openBtn?.setAttribute("aria-expanded", String(open));
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    if (open) (closeBtn as HTMLElement | null)?.focus(); else (openBtn as HTMLElement | null)?.focus();
+  };
+  openBtn?.addEventListener("click", () => setDrawer(true));
+  closeBtn?.addEventListener("click", () => setDrawer(false));
+  drawer?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setDrawer(false)));
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (drawer && !drawer.hidden) setDrawer(false);
+    dropdowns.forEach((dd) => { dd.removeAttribute("data-open"); dd.querySelector(".nav-trigger")?.setAttribute("aria-expanded", "false"); });
+  });
+</script>

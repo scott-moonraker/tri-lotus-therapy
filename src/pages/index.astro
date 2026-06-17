@@ -1,0 +1,407 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import { asset } from "../lib/asset.js";
+import {
+  clinic, hero, features, painPoints, feelings, services,
+  whyChoose, resourceCta, team, faqs, connect, hours,
+} from "../data/site.js";
+---
+<Layout>
+  <!-- ============================ HERO ============================ -->
+  <section class="hero" id="top">
+    <div class="shell hero-inner">
+      <div class="hero-copy" data-reveal>
+        <h1 class="hero-title">
+          {hero.pre} <em>{hero.emphasis}</em>{hero.post}
+        </h1>
+        <p class="hero-sub">{hero.sub}</p>
+        <div class="hero-actions">
+          <a href={clinic.booking.url} class="btn btn-primary" target="_blank" rel="noopener">Book a Free 20min Consultation</a>
+          <a href="#contact" class="btn btn-secondary">Contact Us</a>
+        </div>
+        <a href="#team" class="hero-meet">Meet Our Therapists <Icon name="arrow" size={16} /></a>
+      </div>
+      <div class="hero-media" data-reveal style="--reveal-delay:120ms">
+        <img src={asset(hero.image)} alt={hero.imageAlt} width="1000" height="1000" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= FEATURES ========================= -->
+  <section class="features" aria-label="What we offer">
+    <div class="shell features-inner">
+      {features.map((f, i) => (
+        <div class="feature" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+          <span class="feature-icon"><Icon name={f.icon} size={24} /></span>
+          <p>{f.lines[0]}<br />{f.lines[1]}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ====================== PAIN POINTS ====================== -->
+  <section class="section pain">
+    <div class="shell pain-inner">
+      <div class="pain-media" data-reveal>
+        <img src={asset(painPoints.image)} alt={painPoints.imageAlt} width="900" height="900" loading="lazy" />
+      </div>
+      <div class="pain-copy" data-reveal style="--reveal-delay:100ms">
+        <ul class="pain-quotes">
+          {painPoints.quotes.map((q) => (<li>{q}</li>))}
+        </ul>
+        <p class="pain-body">{painPoints.body}</p>
+        <p class="pain-lead">{painPoints.lead}</p>
+        <div class="pain-actions">
+          <a href={clinic.booking.url} class="btn btn-primary" target="_blank" rel="noopener">Book Now</a>
+          <a href="#contact" class="btn btn-secondary">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW WOULD IT FEEL ===================== -->
+  <section class="section section-sand" id="feel">
+    <div class="shell">
+      <header class="section-head center" data-reveal>
+        <h2 class="section-title">{feelings.heading}</h2>
+      </header>
+      <ul class="feel-grid">
+        {feelings.items.slice(0, 6).map((it, i) => (
+          <li class="feel-card" data-reveal style={`--reveal-delay:${(i % 3) * 70}ms`}>
+            <span class="feel-num">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="feel-title">{it.title}</h3>
+            <p class="feel-body">{it.body}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="feel-feature" data-reveal>
+        <div class="feel-feature-text">
+          <span class="feel-num feel-num-light">07</span>
+          <h3 class="feel-title">{feelings.items[6].title}</h3>
+          <p class="feel-body">{feelings.items[6].body}</p>
+        </div>
+        <div class="feel-feature-cta">
+          <a href={clinic.booking.url} class="btn btn-on-teal" target="_blank" rel="noopener">Book Now</a>
+          <a href="#contact" class="btn btn-ghost-teal">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= OUR SERVICES ========================= -->
+  <section class="section" id="services">
+    <div class="shell">
+      <header class="section-head center" data-reveal>
+        <h2 class="section-title">Our Services</h2>
+      </header>
+      <ul class="service-grid">
+        {services.map((s, i) => (
+          <li class="service-card" data-reveal style={`--reveal-delay:${(i % 3) * 70}ms`}>
+            <a href={s.href} class="service-link">
+              <span class="service-icon"><Icon name={s.icon} size={26} /></span>
+              <h3 class="service-title">{s.title}</h3>
+              <p class="service-body">{s.body}</p>
+              <span class="service-more">Learn More <span class="sm-arrow"><Icon name="arrow" size={15} /></span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========================= WHY CHOOSE ========================= -->
+  <section class="section section-teal" id="why">
+    <div class="shell why-inner">
+      <div class="why-media" data-reveal>
+        <img src={asset(whyChoose.image)} alt={whyChoose.imageAlt} width="900" height="900" loading="lazy" />
+      </div>
+      <div class="why-copy" data-reveal style="--reveal-delay:100ms">
+        <h2 class="section-title why-title">{whyChoose.heading}</h2>
+        {whyChoose.paragraphs.map((p) => (
+          <p class="why-p" set:html={p.text.replace(p.emphasis, `<strong>${p.emphasis}</strong>`)} />
+        ))}
+        <div class="why-actions">
+          <a href={clinic.booking.url} class="btn btn-on-teal" target="_blank" rel="noopener">Book Now</a>
+          <a href="#contact" class="btn btn-ghost-teal">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RESOURCE CTA BAND ===================== -->
+  <section class="resource">
+    <div class="shell resource-inner" data-reveal>
+      <img class="resource-bg" src={asset(resourceCta.image)} alt="" aria-hidden="true" width="1200" height="500" loading="lazy" />
+      <div class="resource-content">
+        <p class="eyebrow eyebrow-light">Free Resource</p>
+        <h2 class="resource-title">{resourceCta.title}</h2>
+        <a href={resourceCta.href} class="btn btn-primary">Get the free guide <Icon name="arrow" size={17} /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= FIND A THERAPIST ========================= -->
+  <section class="section section-sand" id="team">
+    <div class="shell">
+      <header class="section-head center" data-reveal>
+        <h2 class="section-title">Find a Therapist</h2>
+      </header>
+      <ul class="team-grid">
+        {team.map((m, i) => (
+          <li class="team-card" data-reveal style={`--reveal-delay:${(i % 3) * 70}ms`}>
+            <a href={m.href} class="team-link">
+              <span class="team-photo">
+                <img src={asset(m.image)} alt={`${m.name}, therapist at Tri Lotus Psychotherapy`} width="600" height="700" loading="lazy" />
+                {m.note && <span class="team-note">{m.note}</span>}
+              </span>
+              <span class="team-body">
+                <span class="team-meet">Meet {m.first}</span>
+                <span class="team-name">{m.name}</span>
+                <span class="team-supports">{m.supports}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========================= FAQ ========================= -->
+  <section class="section" id="faq">
+    <div class="shell faq-inner">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow">FAQ</p>
+        <h2 class="section-title">Frequently asked questions</h2>
+      </header>
+      <ul class="faq-list" data-reveal style="--reveal-delay:80ms">
+        {faqs.map((f) => (
+          <li><details class="faq"><summary>{f.q}<span class="faq-plus" aria-hidden="true"></span></summary><p>{f.a}</p></details></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== GET STARTED / CONNECT ===================== -->
+  <section class="section section-sand" id="contact">
+    <div class="shell connect-inner">
+      <div class="connect-info" data-reveal>
+        <p class="eyebrow">Get Started Today</p>
+        <h2 class="section-title">{connect.heading}</h2>
+        <p class="connect-sub">{connect.sub}</p>
+        <ul class="connect-facts">
+          <li><Icon name="map" size={20} color="var(--color-teal)" /><span><strong>Address</strong>{clinic.address.full}</span></li>
+          <li><Icon name="phone" size={20} color="var(--color-teal)" /><span><strong>Call</strong><a href={clinic.phoneHref}>{clinic.phone}</a></span></li>
+          <li><Icon name="mail" size={20} color="var(--color-teal)" /><span><strong>Email</strong><a href={clinic.emailHref}>{clinic.email}</a></span></li>
+        </ul>
+        <div class="connect-hours">
+          <h3><Icon name="clock" size={18} color="var(--color-teal)" /> Clinic Hours</h3>
+          <ul>{hours.map((h) => (<li><span>{h.day}</span><span>{h.time}</span></li>))}</ul>
+        </div>
+      </div>
+
+      <form class="connect-form" data-reveal style="--reveal-delay:100ms" data-contact>
+        <div class="field">
+          <label for="cf-name">Name<span aria-hidden="true">*</span></label>
+          <input id="cf-name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="cf-email">Your email</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="cf-phone">Your phone number</label>
+          <input id="cf-phone" name="phone" type="tel" autocomplete="tel" />
+        </div>
+        <fieldset class="field">
+          <legend>Which would you be looking for?</legend>
+          <div class="radio-row">
+            {connect.channelOptions.map((opt, i) => (
+              <label class="radio"><input type="radio" name="channel" value={opt} checked={i === 0} /> {opt}</label>
+            ))}
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="cf-msg">Message</label>
+          <textarea id="cf-msg" name="message" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary connect-submit">Submit</button>
+        <p class="connect-note">*If you don't receive a reply within 24 hours, please check your junk mail folder.</p>
+      </form>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Functional contact form: composes an email to the clinic (no backend needed).
+  const form = document.querySelector("[data-contact]") as HTMLFormElement | null;
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = (data.get("name") || "").toString();
+    const email = (data.get("email") || "").toString();
+    const phone = (data.get("phone") || "").toString();
+    const channel = (data.get("channel") || "").toString();
+    const message = (data.get("message") || "").toString();
+    const body =
+      `Name: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}%0D%0A` +
+      `Looking for: ${channel}%0D%0A%0D%0A${message}`;
+    window.location.href =
+      `mailto:hello@trilotustherapy.com?subject=${encodeURIComponent("Website enquiry from " + name)}&body=${body}`;
+  });
+</script>
+
+<style>
+  .section { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .section-sand { background: var(--color-sunk); }
+  .section-teal { background: var(--color-teal); }
+  .section-head { max-width: 46rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .section-head.center { text-align: center; margin-inline: auto; }
+  .section-title { font-size: clamp(1.85rem, 4vw, 2.7rem); margin-top: 0.5rem; color: var(--color-teal); }
+  .eyebrow { color: var(--color-clay-deep); }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; padding-block: clamp(2.25rem, 5vw, 4rem) clamp(2.5rem, 5vw, 4.5rem); }
+  .hero::before { content: ""; position: absolute; inset: -35% -20% auto auto; width: 55rem; height: 55rem; background: radial-gradient(circle at 70% 30%, var(--color-sage-tint), transparent 58%); z-index: -1; }
+  .hero-inner { display: grid; grid-template-columns: 1fr; gap: clamp(2rem, 4vw, 3.5rem); align-items: center; }
+  .hero-title { font-size: clamp(2.3rem, 5.4vw, 3.9rem); line-height: 1.06; letter-spacing: -0.02em; color: var(--color-ink); max-width: 15ch; }
+  .hero-title em { font-style: italic; color: var(--color-clay-deep); }
+  .hero-sub { margin-top: 1.35rem; font-size: clamp(1.05rem, 1.8vw, 1.2rem); color: var(--color-ink-soft); max-width: 34rem; line-height: 1.6; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.9rem; }
+  .hero-meet { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.4rem; color: var(--color-teal); font-weight: 560; border-bottom: 1.5px solid transparent; transition: border-color 0.18s ease; }
+  .hero-meet:hover { border-bottom-color: var(--color-clay); }
+  .hero-media { position: relative; }
+  .hero-media img { width: 100%; aspect-ratio: 1 / 0.92; object-fit: cover; border-radius: 26px; box-shadow: var(--shadow-lift); border: 1px solid var(--color-line); }
+
+  /* ---------- Features ---------- */
+  .features { background: var(--color-teal); color: #f3efe6; }
+  .features-inner { display: grid; grid-template-columns: 1fr; gap: 0.5rem 2rem; padding-block: clamp(1.75rem, 3vw, 2.25rem); }
+  .feature { display: flex; align-items: center; gap: 0.9rem; padding: 0.6rem 0; font-weight: 500; }
+  .feature p { line-height: 1.35; }
+  .feature-icon { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; border-radius: 50%; background: rgba(255,255,255,0.12); color: var(--color-sand); flex: none; }
+
+  /* ---------- Pain points ---------- */
+  .pain-inner { display: grid; grid-template-columns: 1fr; gap: clamp(2rem, 4vw, 3.25rem); align-items: center; }
+  .pain-media img { width: 100%; aspect-ratio: 1 / 0.85; object-fit: cover; border-radius: 22px; box-shadow: var(--shadow-soft); border: 1px solid var(--color-line); }
+  .pain-quotes { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-bottom: 1.5rem; }
+  .pain-quotes li { font-family: var(--font-serif); font-style: italic; font-size: 0.98rem; color: var(--color-teal); background: var(--color-sage-tint); border-radius: 999px; padding: 0.4rem 0.95rem; }
+  .pain-body { color: var(--color-ink-soft); font-size: 1.08rem; line-height: 1.6; }
+  .pain-lead { margin-top: 1rem; font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.4; color: var(--color-ink); }
+  .pain-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.75rem; }
+
+  /* ---------- How would it feel ---------- */
+  .feel-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .feel-card { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 18px; padding: 1.6rem; transition: transform 0.2s var(--ease-out-quint), box-shadow 0.2s ease; }
+  .feel-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+  .feel-num { font-family: var(--font-serif); font-size: 1rem; font-weight: 600; color: var(--color-clay); }
+  .feel-title { font-size: 1.28rem; margin-top: 0.4rem; color: var(--color-teal); }
+  .feel-body { margin-top: 0.6rem; color: var(--color-ink-soft); font-size: 1rem; line-height: 1.55; }
+  .feel-feature { margin-top: 1.1rem; display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: center; background: var(--color-teal); border-radius: 20px; padding: clamp(1.75rem, 4vw, 2.5rem); box-shadow: var(--shadow-soft); }
+  .feel-feature .feel-num-light { color: var(--color-sand); }
+  .feel-feature .feel-title { color: #fff; max-width: 22ch; }
+  .feel-feature .feel-body { color: #e7efe9; max-width: 56ch; }
+  .feel-feature-cta { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  @media (min-width: 800px) { .feel-feature { grid-template-columns: 1fr auto; gap: 2.5rem; } }
+
+  /* ---------- Services ---------- */
+  .service-grid { display: grid; grid-template-columns: 1fr; gap: 1.1rem; }
+  .service-link { display: flex; flex-direction: column; height: 100%; padding: 1.7rem; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 20px; transition: transform 0.2s var(--ease-out-quint), box-shadow 0.2s ease, border-color 0.2s ease; }
+  .service-link:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); border-color: var(--color-sage); }
+  .service-icon { display: inline-flex; align-items: center; justify-content: center; width: 3.2rem; height: 3.2rem; border-radius: 16px; background: var(--color-sage-tint); color: var(--color-teal); margin-bottom: 1.1rem; }
+  .service-title { font-size: 1.3rem; color: var(--color-teal); }
+  .service-body { margin-top: 0.6rem; color: var(--color-ink-soft); font-size: 1rem; line-height: 1.55; flex: 1; }
+  .service-more { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.1rem; color: var(--color-clay-deep); font-weight: 560; font-size: 0.92rem; }
+  .sm-arrow { display: inline-flex; transition: transform 0.2s var(--ease-out-quint); }
+  .service-link:hover .sm-arrow { transform: translateX(4px); }
+
+  /* ---------- Why choose (teal) ---------- */
+  .why-inner { display: grid; grid-template-columns: 1fr; gap: clamp(2rem, 4vw, 3.25rem); align-items: center; }
+  .why-media img { width: 100%; aspect-ratio: 1 / 0.92; object-fit: cover; border-radius: 22px; box-shadow: var(--shadow-lift); }
+  .why-title { color: #fff; }
+  .why-p { margin-top: 1rem; color: #e7efe9; font-size: 1.06rem; line-height: 1.62; }
+  .why-p strong { color: #fff; font-weight: 600; }
+  .why-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.8rem; }
+  .btn-on-teal { background: var(--color-clay); color: #fff; }
+  .btn-on-teal:hover { background: var(--color-clay-deep); transform: translateY(-2px); }
+  .btn-ghost-teal { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
+  .btn-ghost-teal:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+
+  /* ---------- Resource band ---------- */
+  .resource { padding-block: clamp(2.5rem, 5vw, 4rem); }
+  .resource-inner { position: relative; overflow: hidden; border-radius: 28px; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem); box-shadow: var(--shadow-lift); }
+  .resource-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+  .resource-inner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, rgba(10,107,107,0.94) 30%, rgba(10,107,107,0.7) 100%); z-index: 1; }
+  .resource-content { position: relative; z-index: 2; max-width: 34rem; }
+  .eyebrow-light { color: var(--color-sand); }
+  .resource-title { color: #fff; font-size: clamp(1.6rem, 3.4vw, 2.4rem); line-height: 1.18; margin: 0.6rem 0 1.75rem; }
+
+  /* ---------- Team ---------- */
+  .team-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  .team-link { display: block; height: 100%; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 20px; overflow: hidden; transition: transform 0.2s var(--ease-out-quint), box-shadow 0.2s ease; }
+  .team-link:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+  .team-photo { position: relative; display: block; }
+  .team-photo img { width: 100%; aspect-ratio: 1 / 1.05; object-fit: cover; object-position: center 22%; display: block; }
+  .team-note { position: absolute; left: 0.75rem; bottom: 0.75rem; background: var(--color-clay); color: #fff; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em; padding: 0.3rem 0.7rem; border-radius: 999px; }
+  .team-body { display: block; padding: 1.2rem 1.3rem 1.4rem; }
+  .team-meet { display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-clay-deep); }
+  .team-name { display: block; font-family: var(--font-serif); font-size: 1.4rem; color: var(--color-teal); margin-top: 0.2rem; }
+  .team-supports { display: block; font-size: 0.92rem; color: var(--color-ink-soft); margin-top: 0.5rem; line-height: 1.45; }
+
+  /* ---------- FAQ ---------- */
+  .faq-inner { max-width: 52rem; margin-inline: auto; }
+  .faq-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+  .faq { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 16px; padding: 0.3rem 1.4rem; }
+  .faq summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; cursor: pointer; list-style: none; padding: 1.05rem 0; font-family: var(--font-serif); font-size: 1.18rem; color: var(--color-teal); }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq-plus { position: relative; width: 16px; height: 16px; flex: none; }
+  .faq-plus::before, .faq-plus::after { content: ""; position: absolute; background: var(--color-clay); border-radius: 2px; transition: transform 0.22s var(--ease-out-quint); }
+  .faq-plus::before { top: 7px; left: 0; width: 16px; height: 2px; }
+  .faq-plus::after { left: 7px; top: 0; width: 2px; height: 16px; }
+  .faq[open] .faq-plus::after { transform: scaleY(0); }
+  .faq p { padding: 0 0 1.1rem; color: var(--color-ink-soft); line-height: 1.6; }
+
+  /* ---------- Connect / form ---------- */
+  .connect-inner { display: grid; grid-template-columns: 1fr; gap: clamp(2rem, 4vw, 3.5rem); }
+  .connect-sub { margin-top: 1rem; color: var(--color-ink-soft); font-size: 1.08rem; line-height: 1.6; max-width: 34rem; }
+  .connect-facts { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.75rem; }
+  .connect-facts li { display: flex; align-items: flex-start; gap: 0.75rem; }
+  .connect-facts svg { margin-top: 0.15rem; flex: none; }
+  .connect-facts strong { display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-ink-faint); margin-bottom: 0.1rem; }
+  .connect-facts span { color: var(--color-ink); }
+  .connect-facts a:hover { color: var(--color-clay-deep); }
+  .connect-hours { margin-top: 1.75rem; max-width: 22rem; }
+  .connect-hours h3 { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1.05rem; color: var(--color-teal); margin-bottom: 0.75rem; }
+  .connect-hours ul { display: flex; flex-direction: column; }
+  .connect-hours li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.4rem 0; border-bottom: 1px solid var(--color-line-soft); font-size: 0.95rem; }
+  .connect-hours li span:first-child { color: var(--color-ink); font-weight: 500; }
+  .connect-hours li span:last-child { color: var(--color-ink-soft); }
+
+  .connect-form { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 22px; padding: clamp(1.5rem, 3vw, 2.25rem); box-shadow: var(--shadow-soft); }
+  .field { margin-bottom: 1.1rem; border: none; padding: 0; }
+  .field label, .field legend { display: block; font-size: 0.88rem; font-weight: 560; color: var(--color-ink); margin-bottom: 0.4rem; padding: 0; }
+  .field input, .field textarea { width: 100%; font: inherit; font-size: 1rem; color: var(--color-ink); background: var(--color-paper); border: 1px solid var(--color-line); border-radius: 11px; padding: 0.75rem 0.9rem; transition: border-color 0.16s ease, box-shadow 0.16s ease; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--color-teal); box-shadow: 0 0 0 3px var(--color-sage-tint); }
+  .field textarea { resize: vertical; }
+  .radio-row { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; }
+  .radio { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 400; font-size: 0.98rem; color: var(--color-ink-soft); cursor: pointer; }
+  .radio input { width: auto; accent-color: var(--color-teal); }
+  .connect-submit { width: 100%; margin-top: 0.25rem; }
+  .connect-note { margin-top: 0.9rem; font-size: 0.82rem; color: var(--color-ink-faint); line-height: 1.5; }
+
+  /* ===================== Responsive ===================== */
+  @media (min-width: 560px) {
+    .features-inner { grid-template-columns: repeat(3, 1fr); }
+    .feel-grid { grid-template-columns: repeat(2, 1fr); }
+    .service-grid { grid-template-columns: repeat(2, 1fr); }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .hero-inner { grid-template-columns: 1.05fr 0.95fr; }
+    .pain-inner { grid-template-columns: 0.9fr 1.1fr; }
+    .why-inner { grid-template-columns: 0.95fr 1.05fr; }
+    .feel-grid { grid-template-columns: repeat(3, 1fr); }
+    .service-grid { grid-template-columns: repeat(3, 1fr); }
+    .team-grid { grid-template-columns: repeat(3, 1fr); }
+    .connect-inner { grid-template-columns: 1fr 1fr; align-items: start; }
+  }
+</style>

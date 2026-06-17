@@ -1,0 +1,27 @@
+---
+// Tri Lotus mark: three petals rising from a calm waterline. Line style,
+// inherits currentColor. Used in the header and once as a quiet motif.
+const { size = 30, color, class: className = "" } = Astro.props;
+---
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 48 48"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  style={color ? `color:${color}` : undefined}
+  aria-hidden="true"
+>
+  <!-- center petal -->
+  <path d="M24 9c-3.4 4.2-3.4 13.6 0 19 3.4-5.4 3.4-14.8 0-19Z" />
+  <!-- left petal -->
+  <path d="M24 28C19.4 22.8 13 21 8.5 22c0 4.7 3.6 9.4 9 10.6" />
+  <!-- right petal -->
+  <path d="M24 28c4.6-5.2 11-7 15.5-6 0 4.7-3.6 9.4-9 10.6" />
+  <!-- waterline -->
+  <path d="M9 36c2.6 1.6 4.8 2.4 7.5 2.4 3 0 4.6-1.2 7.5-1.2s4.5 1.2 7.5 1.2c2.7 0 4.9-.8 7.5-2.4" opacity="0.7" />
+</svg>

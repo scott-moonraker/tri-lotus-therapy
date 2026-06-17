@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Tri Lotus design tokens — faithful to the original brand palette:
+   deep teal, clay, sage, warm sand, near-black ink. Polished, not redesigned.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-paper: #fcfaf6;        /* warm white background */
+  --color-sunk: #f4eee4;         /* soft sand strip */
+  --color-shell: #ebe2d4;        /* deeper sand panel */
+  --color-surface: #fffdf9;      /* cards */
+
+  --color-ink: #1a1a1a;          /* primary text (original) */
+  --color-ink-soft: #4b4a47;     /* body / secondary */
+  --color-ink-faint: #797772;    /* captions */
+
+  /* brand */
+  --color-teal: #0a6b6b;         /* primary brand: nav, headings, links */
+  --color-teal-deep: #07504f;    /* hover / pressed */
+  --color-muted: #678585;        /* muted teal */
+  --color-sage: #adbcb7;         /* soft sage */
+  --color-sage-deep: #0a6b6b;    /* alias -> teal (accent text/marks) */
+  --color-sage-tint: #e4ece9;    /* light teal/sage wash */
+  --color-sand: #d4c6b7;         /* warm sand */
+
+  --color-clay: #b07b5b;         /* primary CTA / accent */
+  --color-clay-deep: #97664a;    /* CTA hover */
+  --color-clay-tint: #f1e7df;    /* clay wash */
+
+  --color-line: #e7ddcf;         /* hairline borders */
+  --color-line-soft: #f0e9dd;
+
+  --font-serif: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --shadow-soft: 0 1px 2px rgba(26, 26, 26, 0.05), 0 12px 30px -12px rgba(26, 26, 26, 0.16);
+  --shadow-lift: 0 2px 4px rgba(26, 26, 26, 0.06), 0 22px 48px -18px rgba(26, 26, 26, 0.24);
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 460;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background-color: var(--color-clay-tint);
+    color: var(--color-clay-deep);
+  }
+
+  :focus-visible {
+    outline: 2.5px solid var(--color-clay);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reusable composition
+--------------------------------------------------------------------------- */
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 75rem; /* ~1200px */
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .shell { padding-inline: 2.5rem; }
+  }
+
+  .measure { max-width: 38rem; }      /* ~66ch */
+  .measure-wide { max-width: 44rem; }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-sage-deep);
+  }
+
+  /* Buttons -------------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 560;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0.95rem 1.5rem;
+    border-radius: 999px;
+    min-height: 3rem;
+    cursor: pointer;
+    transition: transform 0.16s var(--ease-out-quint),
+                background-color 0.16s ease, color 0.16s ease,
+                box-shadow 0.16s ease, border-color 0.16s ease;
+  }
+  .btn-primary {
+    background-color: var(--color-clay);
+    color: oklch(0.99 0.01 85);
+    box-shadow: 0 1px 2px oklch(0.4 0.11 45 / 0.25), 0 10px 22px -10px oklch(0.5 0.11 45 / 0.5);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-clay-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px oklch(0.4 0.11 45 / 0.25), 0 16px 30px -12px oklch(0.5 0.11 45 / 0.55);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-sage-deep);
+    border: 1.5px solid var(--color-sage);
+  }
+  .btn-secondary:hover {
+    background-color: var(--color-sage-tint);
+    border-color: var(--color-sage-deep);
+    transform: translateY(-2px);
+  }
+  .btn-secondary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-ink);
+    padding-inline: 0.25rem;
+  }
+
+  .link-quiet {
+    color: var(--color-sage-deep);
+    font-weight: 540;
+    border-bottom: 1.5px solid transparent;
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+  .link-quiet:hover {
+    color: var(--color-clay-deep);
+    border-bottom-color: var(--color-clay);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background-color: var(--color-sage-tint);
+    color: var(--color-sage-deep);
+    font-size: 0.82rem;
+    font-weight: 560;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal — calm, low stimulation. Disabled for reduced motion.
+--------------------------------------------------------------------------- */
+@layer utilities {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s var(--ease-out-quint), transform 0.7s var(--ease-out-quint);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

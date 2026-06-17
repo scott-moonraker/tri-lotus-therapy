@@ -1,0 +1,138 @@
+---
+import Icon from "./Icon.astro";
+import { asset } from "../lib/asset.js";
+import { clinic, nav, landAck } from "../data/site.js";
+---
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <a href="#top" class="footer-logo" aria-label={`${clinic.name} — home`}>
+          <img src={asset("/images/submark.png")} alt="" width="72" height="72" />
+          <span>
+            <span class="fl-name">Tri Lotus</span>
+            <span class="fl-sub">Psychotherapy</span>
+          </span>
+        </a>
+        <p class="footer-blurb">
+          Warm, evidence-based therapy for adults, teens, children, couples
+          and families. In person in Calgary, and online across Alberta.
+        </p>
+        <div class="footer-social" aria-label="Follow Tri Lotus">
+          <a href={clinic.social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a>
+          <a href={clinic.social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={20} /></a>
+          <a href={clinic.social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a>
+        </div>
+        <div class="footer-affirm">
+          <img src={asset("/images/pride-flag.png")} alt="Progress Pride flag" width="80" height="48" />
+          <p>An affirming space for every body, identity &amp; family.</p>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <nav class="footer-explore" aria-label="Explore">
+        <h2 class="footer-heading">Explore</h2>
+        <ul>
+          {nav.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Closing CTA -->
+      <div class="footer-cta-card">
+        <p class="footer-cta-eyebrow">Ready when you are</p>
+        <p class="footer-cta-text">Book a free, no-pressure 20-minute intro call and find the therapist who fits you.</p>
+        <a href={clinic.booking.url} class="btn btn-primary footer-cta-btn" target="_blank" rel="noopener">
+          Book a Free Intro Call <Icon name="arrow" size={17} />
+        </a>
+        <a href="#contact" class="footer-cta-link">Have a question? Contact us <Icon name="arrow" size={14} /></a>
+      </div>
+    </div>
+
+    <!-- Land acknowledgment -->
+    <div class="footer-ack">
+      <p class="footer-ack-label">Land Acknowledgment</p>
+      <p class="footer-ack-text">{landAck.replace(/^Land Acknowledgment:\s*/, "")}</p>
+    </div>
+
+    <!-- Base bar -->
+    <div class="footer-base">
+      <p>&copy; {new Date().getFullYear()} {clinic.name}. All Rights Reserved.</p>
+      <a class="footer-privacy" href="#contact">Privacy Policy</a>
+    </div>
+  </div>
+
+  <style>
+    .site-footer {
+      background-color: var(--color-shell);
+      border-top: 1px solid var(--color-line);
+      padding-block: clamp(3rem, 6vw, 4.5rem) 2rem;
+      margin-top: clamp(3rem, 8vw, 7rem);
+    }
+
+    .footer-top { display: grid; grid-template-columns: 1fr; gap: 2.75rem; }
+
+    /* Brand */
+    .footer-logo { display: inline-flex; align-items: center; gap: 0.75rem; }
+    .footer-logo img { width: 3.6rem; height: 3.6rem; object-fit: contain; }
+    .fl-name { display: block; font-family: var(--font-serif); font-size: 1.5rem; color: var(--color-teal); line-height: 1; }
+    .fl-sub { display: block; font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--color-ink-faint); margin-top: 0.28rem; }
+    .footer-blurb { margin-top: 1.15rem; max-width: 26rem; color: var(--color-ink-soft); font-size: 1rem; line-height: 1.6; }
+    .footer-social { display: flex; gap: 0.55rem; margin-top: 1.4rem; }
+    .footer-social a {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2.6rem; height: 2.6rem; border-radius: 50%;
+      border: 1px solid var(--color-line); color: var(--color-teal); background: var(--color-surface);
+      transition: background-color 0.16s ease, color 0.16s ease, transform 0.16s var(--ease-out-quint);
+    }
+    .footer-social a:hover { background: var(--color-clay); color: #fff; transform: translateY(-2px); border-color: transparent; }
+    .footer-affirm { display: flex; align-items: center; gap: 0.85rem; margin-top: 1.5rem; }
+    .footer-affirm img { width: 4.25rem; height: auto; border-radius: 5px; box-shadow: var(--shadow-soft); flex: none; }
+    .footer-affirm p { font-size: 0.85rem; color: var(--color-ink-soft); line-height: 1.45; max-width: 16rem; }
+
+    /* Explore */
+    .footer-heading { font-family: var(--font-sans); font-size: 0.76rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-ink-faint); margin-bottom: 1.15rem; }
+    .footer-explore ul { display: flex; flex-direction: column; gap: 0.72rem; }
+    .footer-explore a { color: var(--color-ink-soft); font-size: 1rem; transition: color 0.15s ease, padding-left 0.18s var(--ease-out-quint); }
+    .footer-explore a:hover { color: var(--color-clay-deep); padding-left: 0.25rem; }
+
+    /* Closing CTA card */
+    .footer-cta-card {
+      background: var(--color-teal);
+      border-radius: 20px;
+      padding: clamp(1.75rem, 3vw, 2.25rem);
+      box-shadow: var(--shadow-soft);
+      align-self: start;
+    }
+    .footer-cta-eyebrow { font-size: 0.76rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-sand); }
+    .footer-cta-text { margin-top: 0.6rem; color: #eef4f1; font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.4; }
+    .footer-cta-btn { margin-top: 1.4rem; width: 100%; }
+    .footer-cta-link { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 1rem; color: #cfe0db; font-size: 0.9rem; font-weight: 500; transition: color 0.15s ease; }
+    .footer-cta-link:hover { color: #fff; }
+
+    /* Land acknowledgment */
+    .footer-ack { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--color-line); max-width: 62rem; }
+    .footer-ack-label { font-size: 0.76rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-clay-deep); margin-bottom: 0.6rem; }
+    .footer-ack-text { color: var(--color-ink-faint); font-size: 0.88rem; line-height: 1.7; font-style: italic; }
+
+    /* Base */
+    .footer-base {
+      margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-line);
+      display: flex; flex-wrap: wrap; gap: 0.6rem 1.25rem; align-items: center;
+      color: var(--color-ink-faint); font-size: 0.86rem;
+    }
+    .footer-privacy { color: var(--color-teal); }
+    .footer-privacy:hover { color: var(--color-clay-deep); }
+
+    @media (min-width: 620px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-cta-card { grid-column: 1 / -1; }
+    }
+    @media (min-width: 960px) {
+      .footer-top { grid-template-columns: 1.5fr 0.9fr 1.2fr; gap: 3rem; align-items: start; }
+      .footer-cta-card { grid-column: auto; }
+    }
+  </style>
+</footer>
