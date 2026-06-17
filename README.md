@@ -42,16 +42,18 @@ Design context for the rebuild lives in `PRODUCT.md` and `DESIGN.md`.
 ## Deploy (Moonraker sites)
 
 Served at `sites.moonraker.ai/trilotustherapy.com/` from the `client-sites` R2
-bucket via the `moonraker-r2-worker`. Build with the slug as the base path so
-asset URLs resolve under the subpath, then ship `dist/` to R2 under the
-`trilotustherapy.com/` key prefix:
+bucket via the `moonraker-r2-worker`. One command builds with the slug base path,
+uploads `dist/` to the worker `/ingest` endpoint, and flips the KV routing
+pointer (the same flow as `moonraker-site-template`'s `build-site.yml`):
 
 ```bash
-npm run build -- --base=/trilotustherapy.com
-# then ship ./dist to R2 (client-sites) under trilotustherapy.com/ via the
-# agent /ingest pipeline or `wrangler r2 object put` on the account that owns
-# the bucket.
+R2_INGEST_SECRET=<worker ingest secret> npm run deploy
 ```
+
+`scripts/deploy.sh` env knobs: `SLUG` (default `trilotustherapy.com`),
+`TARGET` (`preview` → the `sites.moonraker.ai/<slug>/` host; default),
+`VERSION` (default: epoch). The secret is the same `R2_INGEST_SECRET` the
+GitHub Action uses; it is read from the env and never written to disk.
 
 ## Notes
 
