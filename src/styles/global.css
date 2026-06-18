@@ -43,6 +43,9 @@
    Base
 --------------------------------------------------------------------------- */
 @layer base {
+  /* Explicit so it survives builds that strip Tailwind's preflight reset. */
+  [hidden] { display: none !important; }
+
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;

@@ -162,6 +162,8 @@ import { nav, clinic, announcement } from "../data/site.js";
 
   /* Drawer */
   .drawer { position: fixed; inset: 0; z-index: 70; background: var(--color-paper); display: flex; flex-direction: column; overflow-y: auto; animation: drawer-in 0.32s var(--ease-out-quint); }
+  /* Keep the mobile drawer hidden until opened, independent of any global [hidden] reset. */
+  .drawer[hidden] { display: none !important; }
   @keyframes drawer-in { from { opacity: 0; transform: translateY(-1rem); } to { opacity: 1; transform: none; } }
   .drawer-top { display: flex; align-items: center; justify-content: space-between; height: 4.75rem; border-bottom: 1px solid var(--color-line); }
   .drawer-title { font-family: var(--font-serif); font-size: 1.3rem; color: var(--color-teal); }
